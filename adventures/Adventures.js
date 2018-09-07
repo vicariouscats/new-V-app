@@ -35,9 +35,7 @@ export default class Adventures extends Component {
           horizontal
           ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
           data={this.state.adventures}
-          renderItem={({ item }) => (
-            <AdventureItem {...item} navigation={this.props.navigation} />
-          )}
+          renderItem={({ item }) => <AdventureItem {...item} />}
         />
       </View>
     );

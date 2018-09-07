@@ -3,12 +3,11 @@ import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 export default class AdventureItem extends Component {
   render() {
-    const movieInfo = this.props;
     return (
       <View>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate("Details", movieInfo);
+            this.props.navigation.navigate("Details");
           }}
         >
           <Image

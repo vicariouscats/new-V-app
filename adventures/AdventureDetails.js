@@ -35,7 +35,7 @@ export default class AdventureDetails extends Component {
             }}
             style={[styles.images, { marginBottom: 5 }]}
           />
-          <Button title="Play Now" color="red" onPress={() => {}} />
+          {/* <Button title="Play Now" color="red" onPress={() => {}} />
           <Text
             style={{
               fontStyle: "italic",
@@ -58,7 +58,7 @@ export default class AdventureDetails extends Component {
             }}
           >
             {params.overview}
-          </Text>
+          </Text> */}
         </ImageBackground>
       </View>
     );

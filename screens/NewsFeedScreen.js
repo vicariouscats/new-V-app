@@ -7,6 +7,15 @@ import {
   AsyncStorage,
   ScrollView
 } from "react-native";
+import {
+  Container,
+  Content,
+  Icon,
+  Thumbnail,
+  Header,
+  Left,
+  Right
+} from "native-base";
 import Adventures from "../adventures/Adventures";
 
 export default class NewsFeedScreen extends Component {

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Icon } from "native-base";
 
 import {
   createSwitchNavigator,
@@ -15,6 +15,7 @@ import NewsFeedScreen from "./screens/NewsFeedScreen";
 import FollowingScreen from "./screens/FollowingScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import AdventureDetails from "./adventures/AdventureDetails";
 
 // AUTHORIZE ROUTE (STACK NAVIGATOR)
 const AuthStackNavigator = createStackNavigator({
@@ -44,15 +45,17 @@ const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
     screen: AppTabNavigator,
     navigationOptions: ({ navigation }) => ({
-      title: "Vicarious",
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <View style={{ paddingHorizontal: 10 }}>
-            <Icon name="md-menu" size={24} />
+            <Icon name="menu" size={24} />
           </View>
         </TouchableOpacity>
       )
     })
+  },
+  Details: {
+    screen: AdventureDetails
   }
 });
 
@@ -61,7 +64,7 @@ const AppDrawerNavigator = createDrawerNavigator({
   Settings: SettingsScreen
 });
 
-export default createSwitchNavigator({
+const VSwitchNavigator = createSwitchNavigator({
   AuthLoading: AuthLoadingScreen,
   Auth: AuthStackNavigator,
   App: AppDrawerNavigator
@@ -75,3 +78,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+export default class App extends React.Component {
+  render() {
+    return <VSwitchNavigator />;
+  }
+}
