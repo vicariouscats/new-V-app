@@ -19,6 +19,9 @@ import {
 import Adventures from "../adventures/Adventures";
 
 export default class NewsFeedScreen extends Component {
+  // static navigationOPtions = ({navigation}) => {
+  //   headerRight:
+  // }
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>

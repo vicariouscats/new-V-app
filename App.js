@@ -1,5 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 import { Icon } from "native-base";
 
 import {
@@ -16,6 +18,7 @@ import FollowingScreen from "./screens/FollowingScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import AdventureDetails from "./adventures/AdventureDetails";
+import PostScreen from "./screens/PostScreen";
 
 // AUTHORIZE ROUTE (STACK NAVIGATOR)
 const AuthStackNavigator = createStackNavigator({
@@ -45,10 +48,19 @@ const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
     screen: AppTabNavigator,
     navigationOptions: ({ navigation }) => ({
+      // const title = navigation.getParam('title')
+      // navigate: navigation.navigate('screenName, {title: 'title goes here'});
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <View style={{ paddingHorizontal: 10 }}>
             <Icon name="menu" size={24} />
+          </View>
+        </TouchableOpacity>
+      ),
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate("Post")}>
+          <View style={{ paddingHorizontal: 10 }}>
+            <Icon name="post" size={24} />
           </View>
         </TouchableOpacity>
       )
@@ -56,6 +68,9 @@ const AppStackNavigator = createStackNavigator({
   },
   Details: {
     screen: AdventureDetails
+  },
+  Post: {
+    screen: PostScreen
   }
 });
 
