@@ -136,10 +136,8 @@ export default class WelcomeScreen extends Component {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <Image source={require("./bkg2.png")} style={styles.backgroundImage} />
 
-        <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={require("../V-logo-01.png")} />
-        </View>
         <View style={styles.formContainer}>
           <Text />
           {this.state.errorMessage && (
@@ -182,10 +180,7 @@ export default class WelcomeScreen extends Component {
               Sign in with FACEBOOK
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            // style={styles.buttonContainer}
-            style={{ backgroundColor: "red" }}
-          >
+          <TouchableOpacity style={styles.googleButton}>
             <Text
               style={styles.buttonText}
               onPress={() => this.signInWithGoogleAsync()}
@@ -212,7 +207,7 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#002647"
+    backgroundColor: "#122f3d"
   },
   logoContainer: {
     alignItems: "center",
@@ -228,11 +223,11 @@ const styles = StyleSheet.create({
   title: {
     color: "white",
     marginTop: 10,
-    width: 200,
     textAlign: "center"
   },
   formContainer: {
-    padding: 20
+    padding: 20,
+    marginBottom: 30
   },
 
   input: {
@@ -259,5 +254,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#3B5998",
     paddingVertical: 15,
     marginTop: 10
+  },
+  googleButton: {
+    backgroundColor: "#db3236",
+    paddingVertical: 15,
+    marginTop: 10
+  },
+  backgroundImage: {
+    flex: 1,
+    width: 420, // null
+    height: null,
+    resizeMode: "cover",
+    opacity: 0.9
   }
 });
