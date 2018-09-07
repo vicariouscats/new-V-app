@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { withNavigation } from "react-navigation";
 
-export default class AdventureItem extends Component {
+class AdventureItem extends Component {
   render() {
     return (
       <View>
@@ -21,6 +22,8 @@ export default class AdventureItem extends Component {
     );
   }
 }
+
+export default withNavigation(AdventureItem);
 
 const styles = StyleSheet.create({
   container: {
