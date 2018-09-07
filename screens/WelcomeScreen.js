@@ -262,9 +262,9 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    width: 420, // null
+    width: null,
     height: null,
-    resizeMode: "cover",
+    //resizeMode: "cover",
     opacity: 0.9
   }
 });
