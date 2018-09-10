@@ -1,36 +1,14 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  AsyncStorage
-} from "react-native";
+import React from 'react';
+import {View, ActivityIndicator} from 'react-native';
+import firebase from '../services/firebase';
 
-export default class AuthLoadingScreen extends Component {
-  constructor() {
-    super();
-    this.loadApp();
-  }
 
-  loadApp = async () => {
-    const userToken = await AsyncStorage.getItem("userToken");
-    this.props.navigation.navigate(userToken ? "App" : "Auth");
-  };
+export default class AuthLoadingScreen extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <ActivityIndicator />
       </View>
-    );
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});

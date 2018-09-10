@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { Icon } from "native-base";
+// import { Icon } from "native-base";
 
 import {
   createSwitchNavigator,
@@ -10,15 +10,15 @@ import {
   createDrawerNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import AuthLoadingScreen from "./screens/AuthLoadingScreen";
+import SplashScreen from "./screens/SplashScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import NewsFeedScreen from "./screens/NewsFeedScreen";
 import FollowingScreen from "./screens/FollowingScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import AdventureDetails from "./adventures/AdventureDetails";
 import PostScreen from "./screens/PostScreen";
+import ChallengeDetailScreen from './screens/ChallengeDetailScreen';
 
 // AUTHORIZE ROUTE (STACK NAVIGATOR)
 const AuthStackNavigator = createStackNavigator({
@@ -53,36 +53,42 @@ const AppStackNavigator = createStackNavigator({
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <View style={{ paddingHorizontal: 10 }}>
-            <Icon name="menu" size={24} />
+            <Ionicons name="ios-menu" size={24} />
           </View>
         </TouchableOpacity>
       ),
       headerRight: (
         <TouchableOpacity onPress={() => navigation.navigate("Post")}>
           <View style={{ paddingHorizontal: 10 }}>
-            <Icon name="post" size={24} />
+            <Ionicons name="ios-create-outline" size={24} />
           </View>
         </TouchableOpacity>
       )
     })
   },
   Details: {
-    screen: AdventureDetails
+    screen: ChallengeDetailScreen
   },
   Post: {
     screen: PostScreen
   }
+}, {
+
 });
 
 const AppDrawerNavigator = createDrawerNavigator({
   Main: AppStackNavigator,
   Settings: SettingsScreen
+}, {
+  initialRouteName: 'Main'
 });
 
 const VSwitchNavigator = createSwitchNavigator({
-  AuthLoading: AuthLoadingScreen,
+  AuthLoading: SplashScreen,
   Auth: AuthStackNavigator,
   App: AppDrawerNavigator
+},{
+  initialRouteName: 'AuthLoading'
 });
 
 const styles = StyleSheet.create({

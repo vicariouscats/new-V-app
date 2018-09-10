@@ -19,7 +19,6 @@ import {
   Right,
   Body
 } from "native-base";
-import Adventures from "../adventures/Adventures";
 
 export default class ProfileScreen extends Component {
   render() {
@@ -63,10 +62,9 @@ export default class ProfileScreen extends Component {
           </View>
         </View>
         <View style={[styles.boxContainer, styles.midThird]}>
-          <Adventures />
         </View>
         <View style={[styles.boxContainer, styles.botThird]}>
-          <Adventures />
+
         </View>
       </ScrollView>
     );
