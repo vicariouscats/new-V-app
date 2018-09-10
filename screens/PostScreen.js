@@ -6,7 +6,8 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableWithoutFeedback
 } from "react-native";
 import { ImagePicker } from "expo";
 import { Ionicons } from "@expo/vector-icons";
