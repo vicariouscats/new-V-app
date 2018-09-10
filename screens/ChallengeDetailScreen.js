@@ -30,8 +30,7 @@ class ChallengeDetailScreen extends React.Component {
     firestore
       .collection("challenges")
       .doc(challengeId)
-      .get()
-      .then(snapshot => {
+      .onSnapshot(snapshot => {
         this.setState({
           loading: false,
           challenge: snapshot.data()
@@ -42,6 +41,13 @@ class ChallengeDetailScreen extends React.Component {
   handleAccept = async () => {
     const challengeId = this.props.navigation.state.params.id;
     const currentChallengerIds = this.state.challenge.challengerIds || [];
+    const challengers = this.state.challenge.challengers || {};
+    const currentUser = firebase.auth().currentUser;
+    const userId = currentUser.uid;
+    challengers[userId] = {
+      name: currentUser.displayName,
+      avatar: currentUser.photoURL
+    };
     await firestore
       .collection("challenges")
       .doc(challengeId)
@@ -50,12 +56,19 @@ class ChallengeDetailScreen extends React.Component {
           challengerIds: [
             // list of user ids
             ...currentChallengerIds,
-            firebase.auth().currentUser.uid
-          ]
+            userId
+          ],
+          challengers: challengers
         },
         { merge: true }
       );
   };
+
+  isAccepted() {
+    const challengerIds = this.state.challenge.challengerIds || [];
+    const userId = firebase.auth().currentUser.uid;
+    return challengerIds.includes(userId);
+  }
 
   render() {
     if (this.state.loading)
@@ -68,6 +81,17 @@ class ChallengeDetailScreen extends React.Component {
       );
     const screenWidth = Dimensions.get("window").width;
     const challenge = this.state.challenge;
+    const challengerCount = challenge.challengerIds
+      ? challenge.challengerIds.length
+      : 0;
+    const completedCount = challenge.completedUserIds
+      ? challenge.completedUserIds.length
+      : 0;
+
+    const completedUsers = challenge.completedUserIds.map(userId => {
+      return challenge.challengers[userId];
+    });
+
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -172,12 +196,12 @@ class ChallengeDetailScreen extends React.Component {
             />
           </View>
 
-          <CompletedUsers users={this.state.completedUsers} />
+          <CompletedUsers total={completedCount} users={completedUsers} />
         </ScrollView>
         <View style={{ height: 56 }}>
           <TouchableOpacity
             style={{
-              backgroundColor: "green",
+              backgroundColor: this.isAccepted() ? "grey" : "green",
               height: 56,
               alignItems: "center",
               justifyContent: "center"
@@ -185,7 +209,7 @@ class ChallengeDetailScreen extends React.Component {
             onPress={this.handleAccept}
           >
             <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
-              Accept Challenge
+              {this.isAccepted() ? "Accepted" : "Accept Challenge"}
             </Text>
           </TouchableOpacity>
         </View>

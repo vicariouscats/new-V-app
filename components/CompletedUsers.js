@@ -2,11 +2,11 @@ import React from "react";
 import { View, Text, ImageBackground, Image } from "react-native";
 import _ from "lodash";
 
-export default function CompletedUsers({ users }) {
+export default function CompletedUsers({ total, users }) {
   const firstGroup = _.takeRight(users, 3);
   return (
     <View style={{ padding: 16 }}>
-      <Text>Completed By</Text>
+      <Text>Completed By ({total})</Text>
       <View style={{ flex: 1, flexDirection: "row" }}>
         <View
           style={{ width: 132, flexDirection: "row", position: "relative" }}

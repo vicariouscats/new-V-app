@@ -25,7 +25,7 @@ import {
 import { getChallenges } from "../utils/data";
 import { LinearGradient } from "expo";
 import ChallengeItem from "../components/ChallengeItem";
-import { firestore } from "../services/firebase";
+import firebase, { firestore } from "../services/firebase";
 
 export default class NewsFeedScreen extends Component {
   /**
@@ -86,7 +86,6 @@ export default class NewsFeedScreen extends Component {
     }
   }
 
-  // loading
   _renderLoading = () => {
     return (
       <View>
@@ -95,7 +94,6 @@ export default class NewsFeedScreen extends Component {
     );
   };
 
-  //empty
   _renderNotFound = () => {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -104,12 +102,15 @@ export default class NewsFeedScreen extends Component {
     );
   };
 
-  //render challenges via challenge item component. navigation passes 'id' prop
   _renderChallenge = ({ item }) => {
+    const userId = firebase.auth().currentUser.uid;
+    const completedUserIds = item.completedUserIds || [];
+    const isCompleted = completedUserIds.includes(userId);
     return (
       <ChallengeItem
         key={item.id}
         challenge={item}
+        completed={isCompleted}
         onPress={() =>
           this.props.navigation.navigate("Details", { id: item.id })
         }

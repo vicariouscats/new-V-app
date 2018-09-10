@@ -6,11 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
-  StatusBar
+  ActivityIndicator
 } from "react-native";
 import { ImagePicker } from "expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -178,33 +174,25 @@ export default class PostScreen extends Component {
           >
             <Text style={{ color: "#fff", fontSize: 16 }}>Save</Text>
           </TouchableOpacity>
-          {this.state.loading &&
-            8(
-              <View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  bottom: 0,
-                  right: 0,
-                  zIndex: 10,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(255, 255,255, 0.6)"
-                }}
-              >
-                <ActivityIndicator />
-              </View>
-            )}
+          {this.state.loading && (
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                zIndex: 10,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(255, 255,255, 0.6)"
+              }}
+            >
+              <ActivityIndicator />
+            </View>
+          )}
         </View>
       </DismissKeyboard>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#122f3d"
-  }
-});
