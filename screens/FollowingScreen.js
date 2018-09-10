@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Text,
   View,
@@ -10,7 +10,7 @@ import {
   ImageBackground,
   Dimensions,
   FlatList
-} from 'react-native';
+} from "react-native";
 import {
   Container,
   Content,
@@ -21,11 +21,11 @@ import {
   Right,
   Spinner,
   H1
-} from 'native-base';
-import { getChallenges } from '../utils/data';
-import { LinearGradient } from 'expo';
-import ChallengeItem from '../components/ChallengeItem';
-import firebase, { firestore } from '../services/firebase';
+} from "native-base";
+import { getChallenges } from "../utils/data";
+import { LinearGradient } from "expo";
+import ChallengeItem from "../components/ChallengeItem";
+import firebase, { firestore } from "../services/firebase";
 
 export default class FollowingScreen extends Component {
   /**
@@ -41,8 +41,8 @@ export default class FollowingScreen extends Component {
 
   componentDidMount() {
     firestore
-      .collection('challenges')
-      .where('challengerIds', 'array-contains', firebase.auth().currentUser.uid)
+      .collection("challenges")
+      .where("challengerIds", "array-contains", firebase.auth().currentUser.uid)
       .onSnapshot({
         error: console.log,
         next: querySnapshot => {
@@ -77,7 +77,7 @@ export default class FollowingScreen extends Component {
       return (
         <FlatList
           style={{ flex: 1 }}
-          contentContainerStyle={{ alignItems: 'center' }}
+          contentContainerStyle={{ alignItems: "center" }}
           data={this.state.challenges}
           keyExtractor={challenge => challenge.id}
           renderItem={this._renderChallenge}
@@ -96,7 +96,7 @@ export default class FollowingScreen extends Component {
 
   _renderNotFound = () => {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <H1>Not found</H1>
       </View>
     );
@@ -108,7 +108,7 @@ export default class FollowingScreen extends Component {
         key={item.id}
         challenge={item}
         onPress={() =>
-          this.props.navigation.navigate('Details', { id: item.id })
+          this.props.navigation.navigate("Details", { id: item.id })
         }
       />
     );
@@ -118,12 +118,12 @@ export default class FollowingScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#002647'
+    backgroundColor: "#002647"
   },
   text: {
     paddingBottom: 5,
     paddingTop: 10,
-    fontWeight: '700',
-    color: 'white'
+    fontWeight: "700",
+    color: "white"
   }
 });

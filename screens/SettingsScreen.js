@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Button, AsyncStorage } from "react-native";
 export default class SettingsScreen extends Component {
   signOut = async () => {
     AsyncStorage.clear();
-    this.props.navigation.navigate("AuthLoading");
+    this.props.navigation.navigate("Welcome");
   };
 
   render() {
