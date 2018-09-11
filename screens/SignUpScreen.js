@@ -19,7 +19,7 @@ export default class SignUpScreen extends Component {
         <StatusBar barStyle="light-content" />
 
         <View style={styles.logoContainer}>
-          <Image source={require("./V-logo-01.png")} style={styles.logo} />
+          <Image source={require("./CHALLX-logo-01.png")} style={styles.logo} />
         </View>
 
         <View style={styles.formContainer}>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   title: {
     color: "white",
     marginTop: 10,
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 10
   }
 });
