@@ -1,3 +1,5 @@
+//POSTSCREEN
+
 import React, { Component } from "react";
 import {
   View,
@@ -7,7 +9,8 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import { ImagePicker } from "expo";
 import { Ionicons } from "@expo/vector-icons";

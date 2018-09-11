@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import {
+  Text,
+  View,
   StyleSheet,
+  Button,
   AsyncStorage,
   ScrollView,
   Image,
@@ -23,7 +26,6 @@ import { getChallenges } from "../utils/data";
 import { LinearGradient } from "expo";
 import ChallengeItem from "../components/ChallengeItem";
 import firebase, { firestore } from "../services/firebase";
-import { View, Text, Button } from "native-base";
 
 export default class FollowingScreen extends Component {
   /**
@@ -58,36 +60,6 @@ export default class FollowingScreen extends Component {
         }
       });
   }
-
-  handleUnfollow = async challenge => {
-    const userId = firebase.auth().currentUser.uid;
-    let challengerIds = challenge.challengerIds || [];
-
-    challengerIds = challengerIds.filter(id => {
-      return id != userId;
-    });
-
-    await firestore
-      .collection("challenges")
-      .doc(challenge.id)
-      .update({
-        challengerIds: challengerIds
-      });
-  };
-
-  handleComplete = async challenge => {
-    const userId = firebase.auth().currentUser.uid;
-    let completedUserIds = challenge.completedUserIds || [];
-
-    completedUserIds.push(userId);
-
-    await firestore
-      .collection("challenges")
-      .doc(challenge.id)
-      .update({
-        completedUserIds: completedUserIds
-      });
-  };
 
   render() {
     // Scenarios
@@ -131,29 +103,14 @@ export default class FollowingScreen extends Component {
   };
 
   _renderChallenge = ({ item }) => {
-    const userId = firebase.auth().currentUser.uid;
-    const completedUserIds = item.completedUserIds || [];
-    const isCompleted = completedUserIds.includes(userId);
     return (
-      <View style={{}}>
-        <ChallengeItem
-          challenge={item}
-          completed={isCompleted}
-          onPress={() =>
-            this.props.navigation.navigate("Details", { id: item.id })
-          }
-        />
-        {!isCompleted && (
-          <View style={{ flexDirection: "row" }}>
-            <Button onPress={this.handleComplete.bind(null, item)}>
-              <Text>Complete</Text>
-            </Button>
-            <Button danger onPress={this.handleUnfollow.bind(null, item)}>
-              <Text>Unfollow</Text>
-            </Button>
-          </View>
-        )}
-      </View>
+      <ChallengeItem
+        key={item.id}
+        challenge={item}
+        onPress={() =>
+          this.props.navigation.navigate("Details", { id: item.id })
+        }
+      />
     );
   };
 }
