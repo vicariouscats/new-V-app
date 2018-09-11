@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, Text, ImageBackground, Image } from 'react-native';
-import _ from 'lodash';
+import React from "react";
+import { View, Text, ImageBackground, Image } from "react-native";
+import _ from "lodash";
 
-export default function CompletedUsers({ users }) {
+export default function CompletedUsers({ total, users }) {
   const firstGroup = _.takeRight(users, 3);
   return (
     <View style={{ padding: 16 }}>
-      <Text>Completed By</Text>
-      <View style={{ flex: 1, flexDirection: 'row' }}>
+      <Text>Completed By ({total})</Text>
+      <View style={{ flex: 1, flexDirection: "row" }}>
         <View
-          style={{ width: 132, flexDirection: 'row', position: 'relative' }}
+          style={{ width: 132, flexDirection: "row", position: "relative" }}
         >
           {firstGroup.map((user, index) => (
             <ImageBackground
@@ -18,19 +18,19 @@ export default function CompletedUsers({ users }) {
                 width: 56,
                 height: 56,
                 borderRadius: 56,
-                position: 'absolute',
+                position: "absolute",
                 left: index * 32,
-                overflow: 'hidden',
+                overflow: "hidden",
                 borderWidth: 4,
-                borderColor: 'white'
+                borderColor: "white"
               }}
               resizeMode="cover"
             />
           ))}
         </View>
-        <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ flex: 1, flexDirection: "column" }}>
           <View>
-            <Text>{_.map(firstGroup, 'firstName').join(', ')}</Text>
+            <Text>{_.map(firstGroup, "firstName").join(", ")}</Text>
           </View>
           <View>
             <Text>and {users.length - 3} people</Text>

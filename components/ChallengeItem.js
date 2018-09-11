@@ -1,49 +1,63 @@
-import React from 'react';
+import React from "react";
 import {
   Text,
   ImageBackground,
   Dimensions,
   TouchableOpacity
-} from 'react-native';
-import { LinearGradient } from 'expo';
+} from "react-native";
+import { LinearGradient } from "expo";
 
-export default function ChallengeItem({ challenge, onPress }) {
-  const screenWidth = Dimensions.get('window').width;
+export default function ChallengeItem({ challenge, completed, onPress }) {
+  const screenWidth = Dimensions.get("window").width;
   const pictureUrl =
-    challenge.pictureUrl || 'https://via.placeholder.com/350x200';
+    challenge.pictureUrl || "https://via.placeholder.com/350x200";
 
   return (
     <TouchableOpacity onPress={onPress}>
       <ImageBackground
         source={{ uri: pictureUrl }}
         style={{
-          position: 'relative',
+          position: "relative",
           width: screenWidth - 32,
           height: 200,
           marginTop: 16,
           borderRadius: 8,
-          overflow: 'hidden'
+          overflow: "hidden"
         }}
       >
         <LinearGradient
-          colors={['transparent', 'rgba(0, 0, 0, 0.5)']}
+          colors={["transparent", "rgba(0, 0, 0, 0.5)"]}
           style={{
             flex: 1,
-            position: 'absolute',
+            position: "absolute",
             bottom: 0,
             padding: 8,
-            width: '100%'
+            width: "100%"
           }}
         >
           <Text
             style={{
               fontSize: 16,
-              color: 'white'
+              color: "white"
             }}
           >
             {challenge.title}
           </Text>
         </LinearGradient>
+        {completed && (
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              position: "absolute",
+              color: "red",
+              top: 8,
+              right: 8
+            }}
+          >
+            Completed
+          </Text>
+        )}
       </ImageBackground>
     </TouchableOpacity>
   );

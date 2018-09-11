@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -8,12 +8,12 @@ import {
   Image,
   FlatList,
   TouchableOpacity
-} from 'react-native';
-import { getChallengeDetail } from '../utils/data';
-import { Spinner } from 'native-base';
-import { LinearGradient } from 'expo';
-import CompletedUsers from '../components/CompletedUsers';
-import firebase, { firestore } from '../services/firebase';
+} from "react-native";
+import { getChallengeDetail } from "../utils/data";
+import { Spinner } from "native-base";
+import { LinearGradient } from "expo";
+import CompletedUsers from "../components/CompletedUsers";
+import firebase, { firestore } from "../services/firebase";
 
 class ChallengeDetailScreen extends React.Component {
   static navigationOptions = {};
@@ -28,10 +28,9 @@ class ChallengeDetailScreen extends React.Component {
   componentDidMount() {
     const challengeId = this.props.navigation.state.params.id;
     firestore
-      .collection('challenges')
+      .collection("challenges")
       .doc(challengeId)
-      .get()
-      .then(snapshot => {
+      .onSnapshot(snapshot => {
         this.setState({
           loading: false,
           challenge: snapshot.data()
@@ -42,60 +41,88 @@ class ChallengeDetailScreen extends React.Component {
   handleAccept = async () => {
     const challengeId = this.props.navigation.state.params.id;
     const currentChallengerIds = this.state.challenge.challengerIds || [];
+    const challengers = this.state.challenge.challengers || {};
+    const currentUser = firebase.auth().currentUser;
+    const userId = currentUser.uid;
+    challengers[userId] = {
+      name: currentUser.displayName,
+      avatar: currentUser.photoURL
+    };
     await firestore
-      .collection('challenges')
+      .collection("challenges")
       .doc(challengeId)
-      .set({
-        challengerIds: [
-          // list of user ids
-          ...currentChallengerIds,
-          firebase.auth().currentUser.uid
-        ]
-      }, {merge: true});
+      .set(
+        {
+          challengerIds: [
+            // list of user ids
+            ...currentChallengerIds,
+            userId
+          ],
+          challengers: challengers
+        },
+        { merge: true }
+      );
   };
+
+  isAccepted() {
+    const challengerIds = this.state.challenge.challengerIds || [];
+    const userId = firebase.auth().currentUser.uid;
+    return challengerIds.includes(userId);
+  }
 
   render() {
     if (this.state.loading)
       return (
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <Spinner />
         </View>
       );
-    const screenWidth = Dimensions.get('window').width;
+    const screenWidth = Dimensions.get("window").width;
     const challenge = this.state.challenge;
+    const challengerCount = challenge.challengerIds
+      ? challenge.challengerIds.length
+      : 0;
+    const completedCount = challenge.completedUserIds
+      ? challenge.completedUserIds.length
+      : 0;
+
+    const completedUsers = challenge.completedUserIds.map(userId => {
+      return challenge.challengers[userId];
+    });
+
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
-          style={{ backgroundColor: 'white', flex: 1 }}
+          style={{ backgroundColor: "white", flex: 1 }}
           contentContainerStyle={{
             paddingBottom: 56,
-            position: 'relative'
+            position: "relative"
           }}
         >
           <ImageBackground
             source={{ uri: challenge.pictureUrl }}
             style={{
-              position: 'relative',
+              position: "relative",
               width: screenWidth,
               height: 300
             }}
           >
             <LinearGradient
-              colors={['transparent', 'rgba(0, 0, 0, 0.5)']}
+              colors={["transparent", "rgba(0, 0, 0, 0.5)"]}
               style={{
                 flex: 1,
-                position: 'absolute',
+                position: "absolute",
                 bottom: 0,
                 padding: 16,
-                width: '100%'
+                width: "100%"
               }}
             >
               <Text
                 style={{
                   fontSize: 30,
-                  color: 'white'
+                  color: "white"
                 }}
               >
                 {challenge.title}
@@ -106,10 +133,10 @@ class ChallengeDetailScreen extends React.Component {
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
+              flexDirection: "row",
               padding: 16,
               borderBottomWidth: 1,
-              borderBottomColor: '#ddd'
+              borderBottomColor: "#ddd"
             }}
           >
             <ImageBackground
@@ -118,11 +145,11 @@ class ChallengeDetailScreen extends React.Component {
                 width: 56,
                 height: 56,
                 borderRadius: 56,
-                overflow: 'hidden',
+                overflow: "hidden",
                 marginRight: 16
               }}
             />
-            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 8 }}>
+            <View style={{ flex: 1, flexDirection: "column", paddingTop: 8 }}>
               <View style={{ marginBottom: 8 }}>
                 <Text>Posted By</Text>
               </View>
@@ -134,7 +161,7 @@ class ChallengeDetailScreen extends React.Component {
           <View style={{ padding: 16 }}>
             <Text
               style={{
-                color: '#666',
+                color: "#666",
                 fontSize: 14
               }}
             >
@@ -161,7 +188,7 @@ class ChallengeDetailScreen extends React.Component {
                       width: 80,
                       height: 80,
                       borderRadius: 6,
-                      overflow: 'hidden'
+                      overflow: "hidden"
                     }}
                   />
                 </View>
@@ -169,20 +196,20 @@ class ChallengeDetailScreen extends React.Component {
             />
           </View>
 
-          <CompletedUsers users={this.state.completedUsers} />
+          <CompletedUsers total={completedCount} users={completedUsers} />
         </ScrollView>
         <View style={{ height: 56 }}>
           <TouchableOpacity
             style={{
-              backgroundColor: 'green',
+              backgroundColor: this.isAccepted() ? "grey" : "green",
               height: 56,
-              alignItems: 'center',
-              justifyContent: 'center'
+              alignItems: "center",
+              justifyContent: "center"
             }}
             onPress={this.handleAccept}
           >
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
-              Accept Challenge
+            <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+              {this.isAccepted() ? "Accepted" : "Accept Challenge"}
             </Text>
           </TouchableOpacity>
         </View>

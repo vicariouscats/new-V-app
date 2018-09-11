@@ -61,11 +61,8 @@ export default class ProfileScreen extends Component {
             <Text>Followers</Text>
           </View>
         </View>
-        <View style={[styles.boxContainer, styles.midThird]}>
-        </View>
-        <View style={[styles.boxContainer, styles.botThird]}>
-
-        </View>
+        <View style={[styles.boxContainer, styles.midThird]} />
+        <View style={[styles.boxContainer, styles.botThird]} />
       </ScrollView>
     );
   }
