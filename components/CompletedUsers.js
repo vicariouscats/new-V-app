@@ -4,6 +4,18 @@ import _ from "lodash";
 
 export default function CompletedUsers({ users }) {
   const firstGroup = _.takeRight(users, 3);
+  const names = _.map(firstGroup, "name");
+
+  let remainingContent = null;
+  if (users.length > 3) {
+    remainingContent = (
+      <Text>
+        {names.join(", ")} and {users.length - 3} people
+      </Text>
+    );
+  } else {
+    remainingContent = <Text>{names.join(", ")}</Text>;
+  }
   return (
     <View style={{ padding: 16 }}>
       <Text>Completed By</Text>
@@ -32,9 +44,7 @@ export default function CompletedUsers({ users }) {
           <View>
             <Text>{_.map(firstGroup, "firstName").join(", ")}</Text>
           </View>
-          <View>
-            <Text>and {users.length - 3} people</Text>
-          </View>
+          <View>{remainingContent}</View>
         </View>
       </View>
     </View>

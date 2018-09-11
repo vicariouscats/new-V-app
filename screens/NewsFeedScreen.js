@@ -42,8 +42,9 @@ export default class NewsFeedScreen extends Component {
   componentDidMount() {
     firestore
       .collection("challenges")
-      .limit(20)
+      .limit(20) // limit collection (challenges) to 20
       .onSnapshot({
+        //receive data real-time (update immediately if there are any changes in the db)
         error: console.log,
         next: querySnapshot => {
           const challenges = [];

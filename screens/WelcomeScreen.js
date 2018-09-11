@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Text,
   View,
@@ -9,18 +9,18 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   AsyncStorage
-} from 'react-native';
+} from "react-native";
 // import { Button, Containter, Form, Input, Item, Label } from "native-base";
 
-import firebase from '../services/firebase';
-
+import firebase from "../services/firebase";
 
 export default class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'cat@test.com',
-      password: 'catcancode',
+      loading: false,
+      email: "cat@test.com",
+      password: "catcancode",
       errorMessage: null,
       userID: []
     };
@@ -32,69 +32,48 @@ export default class WelcomeScreen extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate('App'))
+      .then(() => this.props.navigation.navigate("App"))
       .catch(error => this.setState({ errorMessage: error.message }));
   };
 
-  // cat@test.com pass: catcancode
-  // // ----------TEMPORARY HANDLE
-  // loginWithEmail = async () => {
-  //   await AsyncStorage.setItem("emailToken", "Edgar");
-
-  //   this.props.navigation.navigate("App");
-  // };
-  //----------------
-
-  // PREV HANDLE ------------------
-
   async componentDidMount() {
-    let fb_access_token = await AsyncStorage.getItem('fb_access_token');
+    let fb_access_token = await AsyncStorage.getItem("fb_access_token");
     fb_access_token;
   }
 
   async loginWithFacebook() {
+    this.setState({ loading: true });
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-      '291621038300677',
+      "291621038300677",
       {
-        permissions: ['public_profile', 'email']
+        permissions: ["public_profile", "email"]
       }
     );
-    if (type === 'success') {
-      this.props.navigation.navigate('App');
+    if (type === "success") {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
       firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
+        .then(() => {
+          this.props.navigation.navigate("App");
+        })
         .catch(error => {
-          return 'Error';
+          return "Error";
         });
     }
   }
-
-  // //TEMPORARY FIX
-  // async loginWithFacebook() {
-  //   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-  //     "291621038300677", //got from fbdev
-  //     {
-  //       permissions: ["public_profile"]
-  //     }
-  //   );
-  //   if (type === "success") {
-  //     await AsyncStorage.setItem("fb_access_token", token);
-  //   }
-  // }
 
   async signInWithGoogleAsync() {
     try {
       const result = await Expo.Google.logInAsync({
         // androidClientId: YOUR_CLIENT_ID_HERE,
         iosClientId:
-          '722404394814-fjp30jgdqqknr39ui8c2fv5itbk8ti4c.apps.googleusercontent.com',
-        scopes: ['profile', 'email']
+          "722404394814-fjp30jgdqqknr39ui8c2fv5itbk8ti4c.apps.googleusercontent.com",
+        scopes: ["profile", "email"]
       });
 
-      if (result.type === 'success') {
-        return result.accessToken && this.props.navigation.navigate('App');
+      if (result.type === "success") {
+        return result.accessToken && this.props.navigation.navigate("App");
       } else {
         return { cancelled: true };
       }
@@ -126,12 +105,12 @@ export default class WelcomeScreen extends Component {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Image source={require('./bkg2.png')} style={styles.backgroundImage} />
+        <Image source={require("./bkg2.png")} style={styles.backgroundImage} />
 
         <View style={styles.formContainer}>
           <Text />
           {this.state.errorMessage && (
-            <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>
+            <Text style={{ color: "red" }}>{this.state.errorMessage}</Text>
           )}
           <TextInput
             placeholder="Email"
@@ -166,7 +145,7 @@ export default class WelcomeScreen extends Component {
               style={styles.buttonText}
               onPress={() => this.loginWithFacebook()}
             >
-              {' '}
+              {" "}
               Sign in with FACEBOOK
             </Text>
           </TouchableOpacity>
@@ -175,7 +154,7 @@ export default class WelcomeScreen extends Component {
               style={styles.buttonText}
               onPress={() => this.signInWithGoogleAsync()}
             >
-              {' '}
+              {" "}
               Sign in with GOOGLE +
             </Text>
           </TouchableOpacity>
@@ -183,7 +162,7 @@ export default class WelcomeScreen extends Component {
           <TouchableOpacity>
             <Text
               style={styles.title}
-              onPress={() => this.props.navigation.navigate('SignUp')}
+              onPress={() => this.props.navigation.navigate("SignUp")}
             >
               SIGN UP
             </Text>
@@ -197,12 +176,12 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#122f3d'
+    backgroundColor: "#122f3d"
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: "center"
   },
 
   logo: {
@@ -211,9 +190,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: 'white',
+    color: "white",
     marginTop: 10,
-    textAlign: 'center'
+    textAlign: "center"
   },
   formContainer: {
     padding: 20,
@@ -222,31 +201,31 @@ const styles = StyleSheet.create({
 
   input: {
     height: 40,
-    backgroundColor: 'green',
-    backgroundColor: 'rgba(225,225,225,0.2)',
+    backgroundColor: "green",
+    backgroundColor: "rgba(225,225,225,0.2)",
     marginBottom: 15,
-    color: '#fff',
+    color: "#fff",
     paddingHorizontal: 10
   },
 
   buttonContainer: {
-    backgroundColor: '#C0C0C0',
+    backgroundColor: "#C0C0C0",
     paddingVertical: 15
   },
 
   buttonText: {
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '700'
+    textAlign: "center",
+    color: "#fff",
+    fontWeight: "700"
   },
 
   facebookButton: {
-    backgroundColor: '#3B5998',
+    backgroundColor: "#3B5998",
     paddingVertical: 15,
     marginTop: 10
   },
   googleButton: {
-    backgroundColor: '#db3236',
+    backgroundColor: "#db3236",
     paddingVertical: 15,
     marginTop: 10
   },
