@@ -50,6 +50,7 @@ export default function ChallengeItem({ challenge, completed, onPress }) {
               color: "white",
               fontWeight: "bold",
               position: "absolute",
+              color: "red",
               top: 8,
               right: 8
             }}
