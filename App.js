@@ -15,6 +15,7 @@ import FollowingScreen from "./screens/FollowingScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import PostScreen from "./screens/PostScreen";
+import PostCompleteScreen from "./screens/PostCompleteScreen";
 import ChallengeDetailScreen from "./screens/ChallengeDetailScreen";
 
 // AUTHORIZE ROUTE (STACK NAVIGATOR)
@@ -89,9 +90,12 @@ const AppStackNavigator = createStackNavigator(
     },
     Post: {
       screen: PostScreen
+    },
+    Complete: {
+      screen: PostCompleteScreen
     }
-  },
-  {}
+  }
+  // { initialRouteName: "Complete" }
 );
 
 const AppDrawerNavigator = createDrawerNavigator(

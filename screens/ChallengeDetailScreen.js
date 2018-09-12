@@ -85,6 +85,7 @@ class ChallengeDetailScreen extends React.Component {
       );
     const screenWidth = Dimensions.get("window").width;
     const challenge = this.state.challenge;
+    console.log("challenge", challenge);
     const challengerCount = challenge.challengerIds
       ? challenge.challengerIds.length
       : 0;
@@ -93,10 +94,15 @@ class ChallengeDetailScreen extends React.Component {
       : 0;
 
     const completedUsers = challenge.completedUserIds
-      .map(userId => {
-        return challenge.challengers[userId];
-      })
-      .filter(user => user !== undefined);
+      ? challenge.completedUserIds.map(userId => {
+          return challenge.challengers[userId];
+        })
+      : [];
+
+    // .filter(user => {
+    //   console.log("user", user);
+    //   user !== undefined;
+    // })
 
     return (
       <View style={{ flex: 1 }}>
