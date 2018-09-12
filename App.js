@@ -100,12 +100,25 @@ const AppStackNavigator = createStackNavigator(
 
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    Main: AppStackNavigator,
-    Settings: SettingsScreen
+    Main: {
+      screen: AppStackNavigator
+    },
+    Settings: {
+      screen: SettingsScreen,
+      navigationOptions: ({ navigation }) => ({
+        // const title = navigation.getParam('title')
+        // navigate: navigation.navigate('screenName, {title: 'title goes here'});
+        headerLeft: (
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+            <View style={{ paddingHorizontal: 10 }}>
+              <Ionicons name="ios-menu" size={24} />
+            </View>
+          </TouchableOpacity>
+        )
+      })
+    }
   },
-  {
-    initialRouteName: "Main"
-  }
+  { initialRouteName: "Main" }
 );
 
 const VSwitchNavigator = createSwitchNavigator(

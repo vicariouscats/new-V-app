@@ -65,7 +65,7 @@ export default class PostScreen extends Component {
       const pictureUrl = await snapshot.ref.getDownloadURL();
       const challengeSnapshot = await firestore.collection("challenges").add({
         title: this.state.form.title,
-        content: this.state.form.title,
+        content: this.state.form.content,
         pictureUrl: pictureUrl,
         author: {
           name: firebase.auth().currentUser.displayName,

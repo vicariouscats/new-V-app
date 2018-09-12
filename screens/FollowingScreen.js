@@ -88,6 +88,7 @@ export default class FollowingScreen extends Component {
       .update({
         completedUserIds: completedUserIds
       });
+    this.props.navigation.navigate("Complete");
   };
 
   render() {

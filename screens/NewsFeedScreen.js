@@ -67,6 +67,7 @@ export default class NewsFeedScreen extends Component {
     // case 1: Loading content
     // case 2: Not found/empty content
     // case 3: list content
+    console.log("DATADATA", this.state.challenges);
     const isEmpty =
       this.state.loading === false && this.state.challenges.length === 0;
 
@@ -79,7 +80,11 @@ export default class NewsFeedScreen extends Component {
         <FlatList
           style={{ flex: 1 }}
           contentContainerStyle={{ alignItems: "center" }}
-          data={this.state.challenges}
+          data={this.state.challenges.sort((a, b) => {
+            if (a.createdAt.seconds > b.createdAt.seconds) return -1;
+            if (a.createdAt.seconds < b.createdAt.seconds) return 1;
+            return 0;
+          })}
           keyExtractor={challenge => challenge.id}
           renderItem={this._renderChallenge}
         />
