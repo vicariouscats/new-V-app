@@ -105,7 +105,10 @@ export default class WelcomeScreen extends Component {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Image source={require("./bkg2.png")} style={styles.backgroundImage} />
+        <Image
+          source={require("./bkg-Challx.png")}
+          style={styles.backgroundImage}
+        />
 
         <View style={styles.formContainer}>
           <Text />

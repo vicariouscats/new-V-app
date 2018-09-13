@@ -3,11 +3,12 @@ import {
   Text,
   ImageBackground,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from "react-native";
 import { LinearGradient } from "expo";
 
-export default function ChallengeItem({ challenge, onPress }) {
+export default function ChallengeItem({ challenge, completed, onPress }) {
   const screenWidth = Dimensions.get("window").width;
   const pictureUrl =
     challenge.pictureUrl || "https://via.placeholder.com/350x200";
@@ -44,6 +45,20 @@ export default function ChallengeItem({ challenge, onPress }) {
             {challenge.title}
           </Text>
         </LinearGradient>
+        {completed && (
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              position: "absolute",
+              color: "red",
+              top: 8,
+              right: 8
+            }}
+          >
+            Completed
+          </Text>
+        )}
       </ImageBackground>
     </TouchableOpacity>
   );

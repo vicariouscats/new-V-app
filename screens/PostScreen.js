@@ -10,7 +10,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Button,
+  Share
 } from "react-native";
 import { ImagePicker } from "expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -51,6 +53,18 @@ export default class PostScreen extends Component {
       })
       .catch(() => {});
   };
+
+  ShareMessage = () =>
+    Share.share(
+      {
+        message: `${this.state.form.title} created by Chall app`,
+        url: "https://www.facebook.com/pg/CatCanCode.org",
+        title: "Wow, let's share this!"
+      },
+      {
+        excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"]
+      }
+    );
 
   handleSave = async () => {
     try {
@@ -117,7 +131,7 @@ export default class PostScreen extends Component {
                 borderWidth: 1,
                 borderColor: "#777",
                 paddingHorizontal: 16,
-                minHeight: 300,
+                minHeight: 140,
                 marginTop: 16
               }}
               multiline={true}
@@ -161,7 +175,7 @@ export default class PostScreen extends Component {
               />
             )}
           </View>
-
+          <Button title="Share" onPress={this.ShareMessage} />
           <TouchableOpacity
             onPress={this.handleSave}
             style={{
@@ -171,7 +185,7 @@ export default class PostScreen extends Component {
               bottom: 0,
               left: 0,
               height: 56,
-              backgroundColor: "green",
+              backgroundColor: "#ed8a45",
               alignItems: "center",
               justifyContent: "center"
             }}

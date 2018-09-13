@@ -39,7 +39,7 @@ export default class FollowingScreen extends Component {
   };
 
   componentDidMount() {
-    firestore
+    this.subscribe = firestore
       .collection("challenges")
       .where("challengerIds", "array-contains", firebase.auth().currentUser.uid)
       .onSnapshot({
@@ -58,6 +58,10 @@ export default class FollowingScreen extends Component {
           });
         }
       });
+  }
+
+  componentWillUnmount() {
+    this.subscribe && this.subscribe();
   }
 
   handleUnfollow = async challenge => {
@@ -88,7 +92,7 @@ export default class FollowingScreen extends Component {
       .update({
         completedUserIds: completedUserIds
       });
-    this.props.navigation.navigate("Complete");
+    // this.props.navigation.navigate("Complete");
   };
 
   render() {
@@ -169,6 +173,31 @@ export default class FollowingScreen extends Component {
               this.props.navigation.navigate("Details", { id: item.id })
             }
           />
+          {!isCompleted && (
+            <View
+              style={{
+                flexDirection: "row",
+                position: "absolute",
+                top: 10,
+                right: 10
+              }}
+            >
+              <Button
+                small
+                style={{ backgroundColor: "steelblue" }}
+                onPress={this.handleComplete.bind(null, item)}
+              >
+                <Text>Complete</Text>
+              </Button>
+              <Button
+                small
+                warning
+                onPress={this.handleUnfollow.bind(null, item)}
+              >
+                <Text>Unfollow</Text>
+              </Button>
+            </View>
+          )}
         </View>
       </Swipeout>
     );

@@ -40,7 +40,7 @@ export default class NewsFeedScreen extends Component {
   };
 
   componentDidMount() {
-    firestore
+    this.subscribe = firestore
       .collection("challenges")
       .limit(20) // limit collection (challenges) to 20
       .onSnapshot({
@@ -62,6 +62,10 @@ export default class NewsFeedScreen extends Component {
       });
   }
 
+  componentWillUnmount() {
+    this.subscribe && this.subscribe();
+  }
+
   render() {
     // Scenarios
     // case 1: Loading content
@@ -78,7 +82,7 @@ export default class NewsFeedScreen extends Component {
     } else {
       return (
         <FlatList
-          style={{ flex: 1 }}
+          style={{ flex: 1, backgroundColor: "#fff" }}
           contentContainerStyle={{ alignItems: "center" }}
           data={this.state.challenges.sort((a, b) => {
             if (a.createdAt.seconds > b.createdAt.seconds) return -1;
@@ -127,7 +131,7 @@ export default class NewsFeedScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#002647"
+    backgroundColor: "#ed8a45"
   },
   text: {
     paddingBottom: 5,
